@@ -7,8 +7,3 @@ N1盒子云编译固件,个人极度简化版.每周六凌晨自动进行编译,
 [固件个性化定制说明](https://github.com/ophub/amlogic-s9xxx-openwrt/blob/main/router-config/README.cn.md)  
 
 使用GitHub进行云编译并不困难,希望更多的朋友能够自己动手定制出自己的专属固件.
-
-本项目基于cocokfeng的n1-rom进行定制,算是自己编译固件的初次试手,感谢这位朋友的项目.
-
-## Acknowledgments
-- [n1-rom](https://github.com/cocokfeng/n1-rom)
