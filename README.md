@@ -2,7 +2,7 @@ N1盒子云编译固件,个人极度简化版.每周六凌晨自动进行编译,
 
 仅保留passwall插件和几个辅助性插件,建议把N1当作网关服务器且只使用科学上网功能.
 
-具体情况可参照[固件预览](https://github.com/nantayo/n1/blob/main/%E5%9B%BA%E4%BB%B6%E9%A2%84%E8%A7%88.jpg)
+具体情况可参照[固件预览](https://github.com/nantayo/N1-OpenWrt/blob/main/%E5%9B%BA%E4%BB%B6%E9%A2%84%E8%A7%88.jpg)
 
 [固件个性化定制说明](https://github.com/ophub/amlogic-s9xxx-openwrt/blob/main/router-config/README.cn.md)  
 
