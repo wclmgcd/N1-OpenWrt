@@ -129,6 +129,6 @@ jobs:
         body: |
           N1盒子-精简自用版
           * 固件信息
-          Default IP: 192.168.3.2
+          Default IP: 192.168.3.254
           Default username: root
           Default password: password
