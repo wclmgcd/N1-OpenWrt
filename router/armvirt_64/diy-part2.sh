@@ -8,7 +8,7 @@
 
 # ------------------------------- Main source started -------------------------------
 #
-# Modify default theme（FROM uci-theme-bootstrap CHANGE TO luci-theme-material）
+# Modify default theme（FROM uci-theme-bootstrap CHANGE TO luci-theme-argon）
 sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' ./feeds/luci/collections/luci/Makefile
 
 # Modify some code adaptation
@@ -17,11 +17,11 @@ sed -i 's/LUCI_DEPENDS.*/LUCI_DEPENDS:=\@\(arm\|\|aarch64\)/g' package/lean/luci
 # Add autocore support for armvirt
 sed -i 's/TARGET_rockchip/TARGET_rockchip\|\|TARGET_armvirt/g' package/lean/autocore/Makefile
 
-# Modify default IP（FROM 192.168.1.1 CHANGE TO 192.168.3.2）
+# Modify default IP（FROM 192.168.1.1 CHANGE TO 192.168.3.254）
 sed -i 's/192.168.1.1/192.168.3.254/g' package/base-files/files/bin/config_generate
 
-# Modify default root's password（FROM 'password'[$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.] CHANGE TO 'your password'）
-# sed -i 's/root::0:0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
+# Modify default root's password（FROM 'password'[$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.] CHANGE TO 'Sora1924'）
+sed -i 's/root::0:0:99999:7:::/root:Sora1924:0:0:99999:7:::/g' /etc/shadow
 
 # Replace the default software source
 # sed -i 's#openwrt.proxy.ustclug.org#mirrors.bfsu.edu.cn\\/openwrt#' package/lean/default-settings/files/zzz-default-settings
@@ -30,12 +30,6 @@ sed -i 's/192.168.1.1/192.168.3.254/g' package/base-files/files/bin/config_gener
 
 # ------------------------------- Other started -------------------------------
 #
-# Add luci-app-adguardhome
-# svn co https://github.com/rufengsuixing/luci-app-adguardhome/trunk package/luci-app-adguardhome
-
-# Add OpenAppFilter
-# svn co https://github.com/destan19/OpenAppFilter/trunk package/OpenAppFilter
-
 # Add luci-theme-argon
 rm -rf package/lean/luci-theme-argon
 git clone -b 18.06  https://github.com/jerrykuku/luci-theme-argon.git package/lean/luci-theme-argon
@@ -44,12 +38,6 @@ svn co https://github.com/jerrykuku/luci-app-argon-config/trunk package/luci-app
 # Add haproxy2.4.2
 rm -f package/feeds/packages/haproxy
 svn co https://github.com/cocokfeng/haproxy/trunk package/feeds/packages/haproxy
-
-# luci-theme-infinityfreedom
-# svn co https://github.com/cocokfeng/luci-theme-infinityfreedom/trunk package/luci-theme-infinityfreedom
-
-# Add luci-app-serverchan
-# svn co https://github.com/tty228/luci-app-serverchan/trunk package/luci-app-serverchan
 
 # Add luci-app-amlogic
 svn co https://github.com/ophub/luci-app-amlogic/trunk package/luci-app-amlogic
@@ -60,14 +48,6 @@ sed -i 's/Successfully updated, automatic restarting/升级完成，系统将重
 
 # Add luci-app-passwall
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk package/openwrt-passwall
-
-# Add luci-app-openclash
-# svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/openwrt-openclash
-# pushd package/openwrt-openclash/tools/po2lmo && make && sudo make install 2>/dev/null && popd
-
-# Add luci-app-ssr-plus
-# svn co https://github.com/fw876/helloworld/trunk package/helloworld
-
 
 # coolsnowwolf default software package replaced with Lienol related software package
 # rm -rf feeds/packages/utils/{containerd,libnetwork,runc,tini}
@@ -84,4 +64,3 @@ svn co https://github.com/xiaorouji/openwrt-passwall/trunk package/openwrt-passw
 # git apply ../router-config/patches/{0001*,0002*}.patch --directory=feeds/luci
 #
 # ------------------------------- Other ends -------------------------------
-
