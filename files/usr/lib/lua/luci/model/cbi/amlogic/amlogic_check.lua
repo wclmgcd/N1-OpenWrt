@@ -4,7 +4,7 @@ local DISP = require "luci.dispatcher"
 local m, b
 
 --Set Default value
-default_firmware_repo="nantayo/n1"
+default_firmware_repo="nantayo/N1-OpenWrt"
 local amlogic_firmware_repo = luci.sys.exec("uci get amlogic.config.amlogic_firmware_repo 2>/dev/null") or default_firmware_repo
 
 default_firmware_tag="lede"
