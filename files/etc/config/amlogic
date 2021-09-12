@@ -1,7 +1,7 @@
 
 config amlogic 'config'
 	option enable '1'
-	option amlogic_firmware_repo 'nantayo/n1'
+	option amlogic_firmware_repo 'nantayo/N1-OpenWrt'
 	option amlogic_firmware_tag 'lede'
 	option amlogic_firmware_suffix '.img.gz'
 	option amlogic_firmware_config '1'
