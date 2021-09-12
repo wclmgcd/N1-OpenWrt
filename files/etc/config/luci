@@ -26,3 +26,9 @@ config internal 'ccache'
 config internal 'themes'
 	option Argon '/luci-static/argon'
 	option Bootstrap '/luci-static/bootstrap'
+
+config internal 'diag'
+	option dns 'openwrt.org'
+	option ping 'openwrt.org'
+	option route 'openwrt.org'
+
