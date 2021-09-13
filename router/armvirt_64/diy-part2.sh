@@ -40,11 +40,11 @@ rm -f package/feeds/packages/haproxy
 svn co https://github.com/cocokfeng/haproxy/trunk package/feeds/packages/haproxy
 
 # Add luci-app-amlogic
-svn co https://github.com/ophub/luci-app-amlogic/trunk package/luci-app-amlogic
-sed -i '/sleep 3/,$d' package/luci-app-amlogic/luci-app-amlogic/root/usr/bin/openwrt-update
-sed -i '/Successfully updated, automatic restartin/a\reboot' package/luci-app-amlogic/luci-app-amlogic/root/usr/bin/openwrt-update
-sed -i '/Successfully updated, automatic restartin/a\sleep 3' package/luci-app-amlogic/luci-app-amlogic/root/usr/bin/openwrt-update
-sed -i 's/Successfully updated, automatic restarting/升级完成，系统将重启，请等待重启后，刷新页面!如果等不及也可以拔掉电源重启！/g' package/luci-app-amlogic/luci-app-amlogic/root/usr/bin/openwrt-update
+# svn co https://github.com/ophub/luci-app-amlogic/trunk package/luci-app-amlogic
+# sed -i '/sleep 3/,$d' package/luci-app-amlogic/luci-app-amlogic/root/usr/bin/openwrt-update
+# sed -i '/Successfully updated, automatic restartin/a\reboot' package/luci-app-amlogic/luci-app-amlogic/root/usr/bin/openwrt-update
+# sed -i '/Successfully updated, automatic restartin/a\sleep 3' package/luci-app-amlogic/luci-app-amlogic/root/usr/bin/openwrt-update
+# sed -i 's/Successfully updated, automatic restarting/升级完成，系统将重启，请等待重启后，刷新页面!如果等不及也可以拔掉电源重启！/g' package/luci-app-amlogic/luci-app-amlogic/root/usr/bin/openwrt-update
 
 # Add luci-app-passwall
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk package/openwrt-passwall
