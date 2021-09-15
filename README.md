@@ -13,3 +13,6 @@
 
 个性化定制:  
     参考[固件个性化定制说明](https://github.com/ophub/amlogic-s9xxx-openwrt/blob/main/router-config/README.cn.md)  
+
+Flippy大佬最新帖子:  
+    https://www.right.com.cn/forum/thread-4076037-1-1.html
