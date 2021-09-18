@@ -41,10 +41,10 @@ svn co https://github.com/cocokfeng/haproxy/trunk package/feeds/packages/haproxy
 
 # Add luci-app-amlogic
 svn co https://github.com/ophub/luci-app-amlogic/trunk package/luci-app-amlogic
-sed -i '/sleep 3/,$d' package/luci-app-amlogic/luci-app-amlogic/root/usr/bin/openwrt-update
-sed -i '/Successfully updated, automatic restartin/a\reboot' package/luci-app-amlogic/luci-app-amlogic/root/usr/bin/openwrt-update
-sed -i '/Successfully updated, automatic restartin/a\sleep 3' package/luci-app-amlogic/luci-app-amlogic/root/usr/bin/openwrt-update
-sed -i 's/Successfully updated, automatic restarting/升级完成，系统将重启，请等待重启后刷新页面!/g' package/luci-app-amlogic/luci-app-amlogic/root/usr/bin/openwrt-update
+sed -i "s|https.*/OpenWrt|https://github.com/nantayo/N1-OpenWrt|g" package/luci-app-amlogic/root/etc/config/amlogic
+sed -i "s|ARMv8|n1|g" package/luci-app-amlogic/root/etc/config/amlogic
+sed -i "s|.img.gz|.7z|g" package/luci-app-amlogic/root/etc/config/amlogic
+sed -i "s|opt/kernel|https://github.com/breakings/OpenWrt/tree/main/opt/kernel|g" package/luci-app-amlogic/root/etc/config/amlogic
 
 # Add luci-app-passwall
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk package/openwrt-passwall
