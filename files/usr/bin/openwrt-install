@@ -583,9 +583,7 @@ echo "注意：原版 bootloader 已导出到 ${BACKUP_IMG} , 请注意下载并
 #	mv /root/install-to-emmc.sh /root/install-to-emmc.sh.done
 #	echo "所有步骤均已完成， 请重启系统，注意: 5.10内核只支持SD卡(或U盘)启动，因此请不要拔掉启动介质!"
 #else
-	echo "所有步骤均已完成!"
-	echo "猴属性者： 请输入 reboot 命令重启动，然后迅速拔掉 SD卡或U盘 ！"
-	echo "龟属性者： 请输入 poweroff 命令关机，拔除 SD卡或U盘 之后再开机 !"
-	echo "神属性者： 可以直接拔电！"
+	echo "系统已写入emmc"
+	echo "请拔掉U盘后重启机器"
 #fi
 exit 0
