@@ -4,10 +4,10 @@ local DISP = require "luci.dispatcher"
 local m, b
 
 --Set Default value
-default_firmware_repo="cocokfeng/n1-rom"
+default_firmware_repo="nantayo/N1-OpenWrt"
 local amlogic_firmware_repo = luci.sys.exec("uci get amlogic.config.amlogic_firmware_repo 2>/dev/null") or default_firmware_repo
 
-default_firmware_tag="lede"
+default_firmware_tag="n1"
 local amlogic_firmware_tag = luci.sys.exec("uci get amlogic.config.amlogic_firmware_tag 2>/dev/null") or default_firmware_tag
 
 default_firmware_suffix=".img.gz"
