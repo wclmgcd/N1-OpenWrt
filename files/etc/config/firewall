@@ -15,14 +15,3 @@ config zone
 
 config include
 	option path '/etc/firewall.user'
-
-config include 'passwall'
-	option type 'script'
-	option path '/var/etc/passwall.include'
-	option reload '1'
-
-config include 'passwall_server'
-	option type 'script'
-	option path '/var/etc/passwall_server.include'
-	option reload '1'
-
