@@ -10,6 +10,11 @@ name: Build OpenWrt for N1
 on:
   repository_dispatch:
   workflow_dispatch:
+    inputs:
+      ssh:
+        description: 'SSH connection to Actions'
+        required: false
+        default: 'false'
   schedule:
     - cron: '0 16 * * 5'
 
@@ -110,7 +115,6 @@ jobs:
         KERNEL_VERSION_NAME: 5.4.144
         KERNEL_AUTO_LATEST: false
         PACKAGE_SOC: s905d
-        WHOAMI: nantayo
         SW_FLOWOFFLOAD: 0
         ENABLE_WIFI_K504: 0
 
