@@ -42,7 +42,7 @@ svn co https://github.com/cocokfeng/haproxy/trunk package/feeds/packages/haproxy
 # Add luci-app-amlogic
 svn co https://github.com/ophub/luci-app-amlogic/trunk package/luci-app-amlogic
 sed -i "s|https.*/OpenWrt|https://github.com/nantayo/N1-OpenWrt|g" package/luci-app-amlogic/root/etc/config/amlogic
-sed -i "s|ARMv8|n1|g" package/luci-app-amlogic/root/etc/config/amlogic
+sed -i "s|ARMv8|openwrt|g" package/luci-app-amlogic/root/etc/config/amlogic
 sed -i "s|.img.gz|.7z|g" package/luci-app-amlogic/root/etc/config/amlogic
 sed -i "s|opt/kernel|https://github.com/breakings/OpenWrt/tree/main/opt/kernel|g" package/luci-app-amlogic/root/etc/config/amlogic
 
