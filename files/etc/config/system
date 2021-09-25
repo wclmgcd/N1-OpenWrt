@@ -7,8 +7,8 @@ config system
 	option timezone 'CST-8'
 	option zonename 'Asia/Shanghai'
 	option log_proto 'udp'
-	option conloglevel '8'
-	option cronloglevel '8'
+	option conloglevel '4'
+	option cronloglevel '9'
 
 config timeserver 'ntp'
 	option enabled '1'
