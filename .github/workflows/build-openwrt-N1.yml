@@ -15,8 +15,8 @@ on:
         description: 'SSH connection to Actions'
         required: false
         default: 'false'
-  schedule:
-    - cron: '0 16 * * 5'
+#  schedule:
+#    - cron: '0 16 * * 5'
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
@@ -25,7 +25,7 @@ env:
   CONFIG_FILE: router/armvirt_64/.config
   DIY_P1_SH: router/armvirt_64/diy-part1.sh
   DIY_P2_SH: router/armvirt_64/diy-part2.sh
-  UPLOAD_BIN_DIR: false
+  UPLOAD_BIN_DIR: true
   UPLOAD_ARMVIRT: false
   UPLOAD_FIRMWARE: false
   UPLOAD_RELEASE: true
@@ -112,7 +112,7 @@ jobs:
       uses: ophub/flippy-openwrt-actions@main
       env:
         OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
-        KERNEL_VERSION_NAME: 5.4.147
+        KERNEL_VERSION_NAME: 5.4.149
         PACKAGE_SOC: s905d
         SW_FLOWOFFLOAD: 0
         SFE_FLOW: 0
@@ -127,8 +127,8 @@ jobs:
         tag_name: openwrt_${{ env.PACKAGED_OUTPUTDATE }}
         files: ${{ env.PACKAGED_OUTPUTPATH }}/*
         body: |
-          N1盒子-精简自用版
+          N1盒子-自用版
           * 固件信息
-          Default IP: 192.168.3.254
+          Default IP: 192.168.1.188
           Default username: root
           Default password: password
