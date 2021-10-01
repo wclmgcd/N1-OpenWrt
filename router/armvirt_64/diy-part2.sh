@@ -24,7 +24,7 @@ sed -i 's/192.168.1.1/192.168.1.188/g' package/base-files/files/bin/config_gener
 # ------------------------------- Other started -------------------------------
 #
 git clone https://github.com/ophub/luci-app-amlogic.git package/lean/luci-app-amlogic
-git clone https://github.com/ophub/luci-app-godproxy.git package/lean/luci-app-godproxy
+git clone https://github.com/wclmgcd/luci-app-godproxy.git package/lean/luci-app-godproxy
 git clone https://github.com/small-5/luci-app-adblock-plus package/lean/luci-app-adblock-plus
 git clone https://github.com/vernesong/OpenClash package/lean/luci-app-openclash
 git clone https://github.com/wclmgcd/luci-app-koolproxy.git package/lean/luci-app-koolproxy
