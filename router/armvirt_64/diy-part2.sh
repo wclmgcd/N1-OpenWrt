@@ -10,8 +10,8 @@
 
 
 # Modify some code adaptation
-sed -i 's/LUCI_DEPENDS.*/LUCI_DEPENDS:=\@\(arm\|\|aarch64\)/g' package/lean/luci-app-cpufreq/Makefile
-sed -i 's/services/system/g' package/lean/luci-app-cpufreq/luasrc/controller/cpufreq.lua
+# sed -i 's/LUCI_DEPENDS.*/LUCI_DEPENDS:=\@\(arm\|\|aarch64\)/g' package/lean/luci-app-cpufreq/Makefile
+# sed -i 's/services/system/g' package/lean/luci-app-cpufreq/luasrc/controller/cpufreq.lua
 
 # Add autocore support for armvirt
 sed -i 's/TARGET_rockchip/TARGET_rockchip\|\|TARGET_armvirt/g' package/lean/autocore/Makefile
@@ -23,10 +23,10 @@ sed -i 's/192.168.1.1/192.168.1.188/g' package/base-files/files/bin/config_gener
 
 # ------------------------------- Other started -------------------------------
 #
-git clone https://github.com/ophub/luci-app-amlogic.git package/lean/luci-app-amlogic
-git clone https://github.com/wclmgcd/luci-app-godproxy.git package/lean/luci-app-godproxy
-git clone https://github.com/small-5/luci-app-adblock-plus package/lean/luci-app-adblock-plus
-git clone https://github.com/vernesong/OpenClash package/lean/luci-app-openclash
+# git clone https://github.com/ophub/luci-app-amlogic.git package/lean/luci-app-amlogic
+# git clone https://github.com/wclmgcd/luci-app-godproxy.git package/lean/luci-app-godproxy
+# git clone https://github.com/small-5/luci-app-adblock-plus package/lean/luci-app-adblock-plus
+# git clone https://github.com/vernesong/OpenClash package/lean/luci-app-openclash
 git clone https://github.com/wclmgcd/luci-app-koolproxy.git package/lean/luci-app-koolproxy
 
 
