@@ -1,0 +1,152 @@
+name: N1-OpenWrt-Lede
+
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      ssh:
+        description: 'SSH connection to Actions'
+        required: false
+        default: 'false'
+        
+
+env:
+  REPO_URL: https://github.com/coolsnowwolf/lede
+  REPO_BRANCH: master
+  SCRIPT_SH: script.sh
+  CONFIG_SH: N1_config.sh
+  UPLOAD_FIRMWARE: true
+  TZ: Asia/Shanghai
+  
+jobs:
+  build_openwrt:
+    name: Build OpenWrt and release
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        ref: main
+
+    - name: Initialization environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        docker rmi `docker images -q`
+        sudo -E rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d /usr/local/lib/android
+        sudo -E apt -y purge azure-cli* docker* ghc* zulu* llvm* firefox google* dotnet* powershell* openjdk* mysql* php* mongodb* dotnet* snap* aspnetcore*
+        [ -n "$AGENT_TOOLSDIRECTORY" ] && sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+        sudo -E apt update
+        sudo -E apt -y install $(curl -fsSL https://is.gd/depends_ubuntu_2004)
+        sudo -E apt-get -qq install libfuse-dev
+        sudo -E apt -y autoremove --purge
+        sudo -E systemctl daemon-reload
+        sudo -E apt clean
+        sudo timedatectl set-timezone "$TZ"
+        df -Th
+
+    - name: Clone source code
+      run: |
+        git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+        cd openwrt
+        useVersionInfo=$(git show -s --date=short --format="date: %cd<br/>commit: %s<br/>commit hash: %H")
+        echo "useVersionInfo=$useVersionInfo" >> $GITHUB_ENV
+        echo "DATE=$(date "+%Y-%m-%d %H:%M:%S")" >> $GITHUB_ENV
+        echo "tag_name=$(date +%Y%m%d)" >> $GITHUB_ENV
+                      
+    - name: Update feeds
+      run: |
+        [ -e files ] && mv files openwrt/files
+        chmod +x $SCRIPT_SH
+        ./$SCRIPT_SH
+        cd openwrt 
+        echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
+        echo "src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2.git;main" >> "feeds.conf.default"
+        ./scripts/feeds update -a
+        
+        cat feeds/packages/utils/xfsprogs/Makefile
+        sed -i 's/TARGET_CFLAGS += -DHAVE_MAP_SYNC/TARGET_CFLAGS += -DHAVE_MAP_SYNC -D_LARGEFILE64_SOURCE/' feeds/packages/utils/xfsprogs/Makefile
+        ./scripts/feeds update -a
+
+    - name: Install feeds
+      run: |
+        cd openwrt
+        ./scripts/feeds install -a
+        # OpenWrt golang新版本
+        rm -rf feeds/packages/lang/golang
+        git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+      
+    - name: Load custom configuration
+      run: |
+        chmod +x $CONFIG_SH
+        ./$CONFIG_SH
+
+    - name: Download package
+      run: |
+        cd openwrt
+        make defconfig
+        make download -j8
+        find dl -size -1024c -exec rm -f {} \;
+
+    - name: Compile the firmware
+      run: |
+        cd openwrt
+        echo -e "$(nproc) thread compile"
+        make -j$(nproc) || make -j1 V=s
+        echo "======================="
+        echo "Space usage:"
+        echo "======================="
+        df -h
+        echo "======================="
+        du -h --max-depth=1 ./ --exclude=build_dir --exclude=bin
+        du -h --max-depth=1 ./build_dir
+        du -h --max-depth=1 ./bin
+        echo "status=success" >> $GITHUB_OUTPUT
+
+    - name: Package Armvirt as OpenWrt
+      uses: ophub/flippy-openwrt-actions@main
+      env:
+        OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
+        PACKAGE_SOC: s905d
+        KERNEL_VERSION_NAME: 5.15.153
+        KERNEL_AUTO_LATEST: true
+        WHOAMI: CHH
+        GH_TOKEN: ${{ secrets.RELEASES_TOKEN }}
+
+    - name: Create release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: OpenWrt_s905d_${{ env.PACKAGED_OUTPUTDATE }}
+        name: N1-OpenWrt | ${{ env.DATE }}
+        allowUpdates: true
+        artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*img.gz
+        token: ${{ secrets.RELEASES_TOKEN }}
+        body: |
+          N1 OpenWrt 精简版本
+                                    
+            * 默认IP：192.168.1.2
+            默认用户名：root
+            默认密码：password
+            安装到EMMC及在线更新：系统-->晶晨宝盒
+            
+    - name: Remove old Releases
+      uses: dev-drprasad/delete-older-releases@master
+      with:
+        keep_latest: 3
+        delete_tags: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.RELEASES_TOKEN }}
+        
+    - name: Delete older workflow runs and artifacts
+      uses: Mattraks/delete-workflow-runs@v2
+      if: env.DELETE_ARTIFACTS == 'true'
+      with:
+          token: ${{ secrets.RELEASES_TOKEN }}
+          repository: ${{ github.repository }}
+          retain_days: ${{ env.KEEP_DAY }}
+          keep_minimum_runs: ${{ env.KEEP_MININUM_RUNS }}
