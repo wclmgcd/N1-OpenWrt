@@ -8,6 +8,8 @@ sed -i 's/^root:.*:/root:$1$q6Qf.IUu$Bd2tIMFHYYNOsmsIRBwHC0:19650:0:99999:7:::/g
 
 # Remove packages
 rm -rf feeds/luci/applications/luci-app-passwall
+rm -rf feeds/luci/applications/luci-app-homeproxy
+git clone https://github.com/muink/homeproxy.git  package/luci-app-homeproxy
 
 # Add packages
 git clone https://github.com/nantayo/My-Pkg package/my-pkg
