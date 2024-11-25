@@ -7,7 +7,8 @@ on:
         description: 'SSH connection to Actions'
         required: false
         default: 'false'
- 
+
+
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
   REPO_BRANCH: openwrt-23.05
@@ -92,7 +93,8 @@ jobs:
       uses: unifreq/openwrt_packit@master
       env:
         OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
-        KERNEL_VERSION_NAME: 5.15.153
+        KERNEL_VERSION_NAME: 5.15.158
+        KERNEL_AUTO_LATEST: false
         PACKAGE_SOC: diy
         GZIP_IMGS: .xz
         SCRIPT_DIY_PATH: N1/mk_s905d_n1.sh
