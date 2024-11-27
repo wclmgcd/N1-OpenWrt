@@ -1,14 +1,13 @@
 name: N1-OpenWrt-Lede
 
-
 on:
-  repository_dispatch:
   workflow_dispatch:
-    inputs:
+   inputs:
       ssh:
         description: 'SSH connection to Actions'
         required: false
         default: 'false'
+
        
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
