@@ -38,16 +38,16 @@ CONFIG_PACKAGE_kmod-usb3=y
 
 # luci
 CONFIG_PACKAGE_luci-app-amlogic=y
-CONFIG_PACKAGE_luci-app-filetransfer=y
+CONFIG_PACKAGE_luci-app-alist=y
 CONFIG_PACKAGE_luci-app-openclash=y
-CONFIG_PACKAGE_luci-theme-design=y
-CONFIG_PACKAGE_luci-app-passwall2=y
 CONFIG_PACKAGE_luci-app-vlmcsd=y
+
 # other packages
 #CONFIG_PACKAGE_autocore-arm=y
 #CONFIG_PACKAGE_zoneinfo-asia=y
 #CONFIG_PACKAGE_zoneinfo-core=y
-
+CONFIG_PACKAGE_naiveproxy=y
+CONFIG_PACKAGE_sing-box=y
 # necessary
 CONFIG_BTRFS_PROGS_ZSTD=y
 CONFIG_PACKAGE_attr=y
@@ -91,7 +91,6 @@ CONFIG_PACKAGE_luci-app-turboacc=n
 CONFIG_PACKAGE_luci-app-arpbind=n
 CONFIG_PACKAGE_luci-app-accesscontrol=n
 CONFIG_PACKAGE_luci-app-upnp=n
-CONFIG_PACKAGE_luci-app-vlmcsd=n
 CONFIG_PACKAGE_luci-app-ddns=n
 CONFIG_PACKAGE_ddns-scripts_aliyun=n
 CONFIG_PACKAGE_ddns-scripts_dnspod=n
@@ -106,4 +105,10 @@ CONFIG_PACKAGE_luci-i18n-autoreboot-zh-cn=n
 CONFIG_PACKAGE_luci-app-wol=n
 CONFIG_PACKAGE_wol=n
 CONFIG_PACKAGE_etherwake=n
+# shadowsocks
+CONFIG_PACKAGE_shadowsocks-libev-ss-local=n
+CONFIG_PACKAGE_shadowsocks-libev-ss-redir=n
+CONFIG_PACKAGE_shadowsocksr-libev-ssr-local=n
+CONFIG_PACKAGE_shadowsocksr-libev-ssr-redir=n
+CONFIG_PACKAGE_shadowsocks-rust-sslocal=n
 EOF
