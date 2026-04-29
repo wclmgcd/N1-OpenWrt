@@ -42,6 +42,7 @@ jobs:
         sudo -E apt update
         sudo -E apt -y install $(curl -fsSL https://is.gd/depends_ubuntu_2004)
         sudo -E apt-get -qq install libfuse-dev
+        sudo -E apt-get -qq install -y ninja-build python3-distutils python-is-python3
         sudo -E apt -y autoremove --purge
         sudo -E systemctl daemon-reload
         sudo -E apt clean
@@ -77,7 +78,7 @@ jobs:
         ./scripts/feeds install -a
         # OpenWrt golang新版本
         rm -rf feeds/packages/lang/golang
-        git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+        git clone https://github.com/sbwml/packages_lang_golang -b 26.x feeds/packages/lang/golang
       
     - name: Load custom configuration
       run: |
@@ -90,21 +91,26 @@ jobs:
         make defconfig
         make download -j8
         find dl -size -1024c -exec rm -f {} \;
-
+    
     - name: Compile the firmware
+      working-directory: ./openwrt
       run: |
-        cd openwrt
-        echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 V=s
-        echo "======================="
-        echo "Space usage:"
-        echo "======================="
-        df -h
-        echo "======================="
-        du -h --max-depth=1 ./ --exclude=build_dir --exclude=bin
-        du -h --max-depth=1 ./build_dir
-        du -h --max-depth=1 ./bin
-        echo "status=success" >> $GITHUB_OUTPUT
+        echo "=== Starting compilation (conservative mode) ==="
+
+        # 重要：清理 gn 残留文件
+        rm -rf build_dir/hostpkg/gn* staging_dir/hostpkg/gn* tmp/gn* 2>/dev/null || true
+
+        make defconfig
+
+        echo "=== Compiling gn host package separately (low concurrency) ==="
+        # 先单独编译 gn，用低并发 + 详细输出
+        make -j2 V=s package/feeds/packages/gn/host-compile 2>&1 | tee gn_build.log || \
+        make -j1 V=s package/feeds/packages/gn/host-compile 2>&1 | tee -a gn_build.log
+
+        echo "=== gn finished, starting full compile ==="
+        # 全编译使用较低并发，GitHub runner 上推荐 2 线程
+        make -j2 || make -j1 V=s
+        echo "compile_status=success" >> $GITHUB_ENV
 
     - name: Package Armvirt as OpenWrt
       uses: ophub/flippy-openwrt-actions@main
