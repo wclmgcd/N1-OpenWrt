@@ -2,12 +2,11 @@ name: Build ImmortalWrt for N1
 
 on:
   workflow_dispatch:
-   inputs:
+    inputs:
       ssh:
-        description: 'SSH connection to Actions'
+        description: 'SSH connection to Actions (true/false)'
         required: false
         default: 'false'
-
 
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
@@ -20,6 +19,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-22.04
+    # runs-on: ubuntu-24.04   # 可选：尝试切换到 24.04 测试稳定性
 
     steps:
     - name: Checkout
@@ -42,11 +42,13 @@ jobs:
       run: |
         sudo -E apt-get -qq update -y
         sudo -E apt-get -qq install -y $(curl -fsSL https://raw.githubusercontent.com/nantayo/My-Pkg/master/openwrt) > /dev/null
+        sudo -E apt-get -qq install -y ninja-build python3-distutils python-is-python3
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
+        echo "Environment initialized successfully."
 
     - name: Clone source code
       working-directory: /workdir
@@ -68,7 +70,7 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_SH
 
-    - name: SSH connect to Actions
+    - name: SSH connect to Actions (Debug)
       uses: P3TERX/ssh2actions@main
       if: (github.event.inputs.ssh == 'true') || contains(github.event.action, 'ssh')
 
@@ -76,20 +78,34 @@ jobs:
       working-directory: ./openwrt
       run: |
         make defconfig
+        echo "=== Starting download ==="
         make download -j8
-        find dl -size -1024c -exec ls -l {} \;
-        find dl -size -1024c -exec rm -f {} \;
+        find dl -size -1024c -exec ls -l {} \; || true
+        find dl -size -1024c -exec rm -f {} \; || true
 
     - name: Compile the firmware
+      working-directory: ./openwrt
       run: |
-        chmod -R 755 openwrt
-        cd openwrt
-        echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 || make -j1 V=s
+        echo "=== Starting compilation (optimized for GitHub Runner) ==="
+
+        # 清理可能导致失败的 gn 残留
+        rm -rf build_dir/hostpkg/gn* staging_dir/hostpkg/gn* tmp/gn* 2>/dev/null || true
+
+        make defconfig
+
+        echo "=== Step 1: Compiling gn host package separately (critical) ==="
+        make -j2 V=s package/feeds/packages/gn/host-compile 2>&1 | tee gn_build.log || \
+        make -j1 V=s package/feeds/packages/gn/host-compile 2>&1 | tee -a gn_build.log
+
+        echo "=== Step 2: Starting full firmware compile ==="
+        # 使用较低并发，更稳定
+        make -j2 || make -j1 V=s
+
         echo "compile_status=success" >> $GITHUB_ENV
+        echo "=== Compilation finished ==="
 
     - name: Package armsr as openwrt
-      if: ${{ env.compile_status }} == 'success' && !cancelled()
+      if: ${{ env.compile_status == 'success' }} && !cancelled()
       uses: unifreq/openwrt_packit@master
       env:
         OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
@@ -124,4 +140,4 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         keep_latest: 2
-        delete_tags : true
+        delete_tags: true
