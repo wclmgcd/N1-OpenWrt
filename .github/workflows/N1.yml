@@ -83,7 +83,7 @@ jobs:
         find dl -size -1024c -exec ls -l {} \; || true
         find dl -size -1024c -exec rm -f {} \; || true
 
-        - name: Compile the firmware
+    - name: Compile the firmware
       working-directory: ./openwrt
       run: |
         echo "=== Starting safe compilation ==="
