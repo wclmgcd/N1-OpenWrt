@@ -109,12 +109,13 @@ jobs:
         echo "compile_status=success" >> $GITHUB_ENV
     
 
+    # 检查这里的内核版本号 https://github.com/breakingbadboy/OpenWrt/releases/download/kernel_stable
     - name: Package armsr as openwrt
       if: ${{ env.compile_status == 'success' }} && !cancelled()
       uses: unifreq/openwrt_packit@master
       env:
         OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
-        KERNEL_VERSION_NAME: 5.15.203
+        KERNEL_VERSION_NAME: 5.15.196
         KERNEL_AUTO_LATEST: false
         PACKAGE_SOC: diy
         GZIP_IMGS: .xz
@@ -131,7 +132,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: OpenWrt_${{ env.PACKAGED_OUTPUTDATE }}
-        files: ${{ env.PACKAGED_OUTPUTPATH }}/*.img.xz
+        files: ${{ env.PACKAGED_OUTPUTPATH }}/*.img*
         body: |
           首次使用建议全新刷写
           * 基本信息
