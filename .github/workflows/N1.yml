@@ -83,26 +83,31 @@ jobs:
         find dl -size -1024c -exec ls -l {} \; || true
         find dl -size -1024c -exec rm -f {} \; || true
 
-    - name: Compile the firmware
+        - name: Compile the firmware
       working-directory: ./openwrt
       run: |
-        echo "=== Starting compilation (optimized for GitHub Runner) ==="
+        echo "=== Starting safe compilation ==="
 
-        # 清理可能导致失败的 gn 残留
+        # 再次强制清理 gn
         rm -rf build_dir/hostpkg/gn* staging_dir/hostpkg/gn* tmp/gn* 2>/dev/null || true
 
         make defconfig
 
-        echo "=== Step 1: Compiling gn host package separately (critical) ==="
-        make -j2 V=s package/feeds/packages/gn/host-compile 2>&1 | tee gn_build.log || \
-        make -j1 V=s package/feeds/packages/gn/host-compile 2>&1 | tee -a gn_build.log
+        echo "=== Finding actual gn location ==="
+        GN_PATH=$(find package/feeds -path "*/gn" -type d | head -n 1)
+        if [ -n "$GN_PATH" ]; then
+          echo "Found gn at: $GN_PATH"
+          echo "Trying to compile gn first..."
+          make -j2 V=s ${GN_PATH}/host-compile 2>&1 | tee gn_build.log || true
+        else
+          echo "gn package not found in feeds, skipping single gn compile."
+        fi
 
-        echo "=== Step 2: Starting full firmware compile ==="
-        # 使用较低并发，更稳定
+        echo "=== Starting full compile with low threads ==="
         make -j2 || make -j1 V=s
 
         echo "compile_status=success" >> $GITHUB_ENV
-        echo "=== Compilation finished ==="
+    
 
     - name: Package armsr as openwrt
       if: ${{ env.compile_status == 'success' }} && !cancelled()
