@@ -20,6 +20,8 @@ git clone --depth=1  https://github.com/lxiaya/openwrt-homeproxy.git package/luc
 rm -rf feeds/luci/applications/luci-app-openclash package/luci-app-openclash
 git clone https://github.com/vernesong/OpenClash.git package/luci-app-homeproxy
 
+git clone https://github.com/QiuSimons/luci-app-daed package/daed
+
 # git clone https://github.com/nikkinikki-org/OpenWrt-nikki.git package/luci-app-nikki
 # git clone https://github.com/kenzok8/openwrt-clashoo.git package/openwrt-clashoo
 git clone --depth=1 https://github.com/ophub/luci-app-amlogic package/amlogic
