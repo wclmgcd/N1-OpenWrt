@@ -15,9 +15,10 @@ rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 26.x feeds/packages/lang/golang
 
 rm -rf feeds/luci/applications/luci-app-homeproxy package/luci-app-homeproxy
-git clone -b dev/main https://github.com/muink/homeproxy.git package/luci-app-homeproxy
-git clone https://github.com/nikkinikki-org/OpenWrt-nikki.git package/luci-app-nikki
-git clone https://github.com/kenzok8/openwrt-clashoo.git package/openwrt-clashoo
+git clone https://github.com/lxiaya/openwrt-homeproxy.git package/luci-app-homeproxy
+
+# git clone https://github.com/nikkinikki-org/OpenWrt-nikki.git package/luci-app-nikki
+# git clone https://github.com/kenzok8/openwrt-clashoo.git package/openwrt-clashoo
 git clone --depth=1 https://github.com/ophub/luci-app-amlogic package/amlogic
 
 # 清理 gn 残留（非常重要）
