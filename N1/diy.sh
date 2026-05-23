@@ -17,8 +17,8 @@ git clone https://github.com/sbwml/packages_lang_golang -b 26.x feeds/packages/l
 rm -rf feeds/luci/applications/luci-app-homeproxy
 git clone --depth=1 https://github.com/lxiaya/openwrt-homeproxy.git package/luci-app-homeproxy
 
-rm -rf feeds/luci/applications/luci-app-openclash
-git clone --depth=1 https://github.com/vernesong/OpenClash.git package/luci-app-openclash
+# rm -rf feeds/luci/applications/luci-app-openclash
+# git clone --depth=1 https://github.com/vernesong/OpenClash.git package/luci-app-openclash
 
 rm -rf feeds/packages/net/dae
 rm -rf feeds/packages/net/daed
