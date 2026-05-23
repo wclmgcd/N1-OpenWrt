@@ -14,7 +14,7 @@ echo "# CONFIG_PACKAGE_naiveproxy is not set" >> .config
 rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 26.x feeds/packages/lang/golang
 
-rm -rf feeds/luci/applications/luci-app-homeproxy
+rm -rf feeds/luci/applications/luci-app-homeproxy package/luci-app-homeproxy
 git clone --depth=1 https://github.com/lxiaya/openwrt-homeproxy.git package/luci-app-homeproxy
 
 # rm -rf feeds/luci/applications/luci-app-openclash
