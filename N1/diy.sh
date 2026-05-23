@@ -15,13 +15,17 @@ rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 26.x feeds/packages/lang/golang
 
 rm -rf feeds/luci/applications/luci-app-homeproxy
-git clone --depth=1  https://github.com/lxiaya/openwrt-homeproxy.git package/luci-app-homeproxy
+git clone --depth=1 https://github.com/lxiaya/openwrt-homeproxy.git package/luci-app-homeproxy
 
 rm -rf feeds/luci/applications/luci-app-openclash
-git clone --depth=1  https://github.com/vernesong/OpenClash.git package/luci-app-homeproxy
+git clone --depth=1 https://github.com/vernesong/OpenClash.git package/luci-app-openclash
 
+rm -rf feeds/packages/net/dae
+rm -rf feeds/packages/net/daed
+rm -rf package/feeds/packages/dae
+rm -rf package/feeds/packages/daed
 rm -rf feeds/luci/applications/luci-app-daed
-git clone https://github.com/QiuSimons/luci-app-daed package/daed
+git clone --depth=1 https://github.com/QiuSimons/luci-app-daed package/luci-app-daed
 
 # git clone https://github.com/nikkinikki-org/OpenWrt-nikki.git package/luci-app-nikki
 # git clone https://github.com/kenzok8/openwrt-clashoo.git package/openwrt-clashoo
