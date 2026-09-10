@@ -25,8 +25,8 @@ rm -rf feeds/packages/net/daed
 rm -rf package/feeds/packages/dae
 rm -rf package/feeds/packages/daed
 rm -rf feeds/luci/applications/luci-app-daed
-git clone --depth=1 https://github.com/QiuSimons/luci-app-daed package/luci-app-daed
-
+# git clone --depth=1 https://github.com/QiuSimons/luci-app-daed package/luci-app-daed
+git clone --depth=1 https://github.com/kenzok8/openwrt-daede package/openwrt-daede
 # git clone https://github.com/nikkinikki-org/OpenWrt-nikki.git package/luci-app-nikki
 # git clone https://github.com/kenzok8/openwrt-clashoo.git package/openwrt-clashoo
 git clone --depth=1 https://github.com/ophub/luci-app-amlogic package/amlogic
